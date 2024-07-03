@@ -16,22 +16,22 @@ jobs:
     steps:
       - name: Download x86_64
         run: |
-          mkdir -p packages/x86_64 release
+          mkdir -p packages/x86_64 releases
           wget "http://ftp.debian.org/debian/pool/main/q/qemu/qemu-user-static_${{ env.ORIGIN_VERSION }}_amd64.deb"
           dpkg-deb -R qemu-user-static_*_amd64.deb packages/x86_64
           find packages/x86_64/usr/bin -type l -delete
-          for i in packages/x86_64/usr/bin/qemu-*-static; do mv "$i" "packages/x86_64-$(basename "$i")"; done
+          for i in packages/x86_64/usr/bin/qemu-*-static; do mv "$i" "releases/x86_64-$(basename "$i")"; done
 
       - name: Download arm64
         run: |
-          mkdir -p packages/aarch64 release
+          mkdir -p packages/aarch64 releases
           wget "http://ftp.debian.org/debian/pool/main/q/qemu/qemu-user-static_${{ env.ORIGIN_VERSION }}_arm64.deb"
           dpkg-deb -R qemu-user-static_*_arm64.deb packages/aarch64
           find packages/aarch64/usr/bin -type l -delete
-          for i in packages/aarch64/usr/bin/qemu-*-static; do mv "$i" "packages/aarch64-$(basename "$i")"; done
+          for i in packages/aarch64/usr/bin/qemu-*-static; do mv "$i" "releases/aarch64-$(basename "$i")"; done
 
       - name: Generate checksum
-        run: sha256sum x86_64/* aarch64/* > CHECKSUMS
+        run: sha256sum releases/* > CHECKSUMS
         working-directory: packages
 
       - name: Create Release
