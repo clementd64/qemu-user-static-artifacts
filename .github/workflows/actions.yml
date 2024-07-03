@@ -31,8 +31,9 @@ jobs:
           for i in packages/aarch64/usr/bin/qemu-*-static; do mv "$i" "releases/aarch64-$(basename "$i")"; done
 
       - name: Generate checksum
-        run: sha256sum releases/* > CHECKSUMS
-        working-directory: packages
+        run: |
+          sha256sum * > CHECKSUMS
+        working-directory: releases
 
       - name: Create Release
         uses: ncipollo/release-action@v1
