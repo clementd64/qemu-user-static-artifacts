@@ -31,7 +31,7 @@ jobs:
           for i in packages/aarch64/usr/bin/qemu-*-static; do mv "$i" "packages/aarch64-$(basename "$i")"; done
 
       - name: Generate checksum
-        run: sha256sum * > CHECKSUMS
+        run: sha256sum x86_64/* aarch64/* > CHECKSUMS
         working-directory: packages
 
       - name: Create Release
